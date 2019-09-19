@@ -1,9 +1,9 @@
 K2HR3 Container Registration Sidecar
 --------
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/yahoojapan/k2hr3_sidecar/master/COPYING)
-[![GitHub forks](https://img.shields.io/github/forks/yahoojapan/chmpx.svg)](https://github.com/yahoojapan/k2hr3_sidecar/network)
-[![GitHub stars](https://img.shields.io/github/stars/yahoojapan/chmpx.svg)](https://github.com/yahoojapan/k2hr3_sidecar/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/yahoojapan/chmpx.svg)](https://github.com/yahoojapan/k2hr3_sidecar/issues)
+[![GitHub forks](https://img.shields.io/github/forks/yahoojapan/k2hr3_sidecar.svg)](https://github.com/yahoojapan/k2hr3_sidecar/network)
+[![GitHub stars](https://img.shields.io/github/stars/yahoojapan/k2hr3_sidecar.svg)](https://github.com/yahoojapan/k2hr3_sidecar/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/yahoojapan/k2hr3_sidecar.svg)](https://github.com/yahoojapan/k2hr3_sidecar/issues)
 [![Docker stars](https://img.shields.io/docker/stars/antpickax/k2hr3.sidecar.svg)](https://hub.docker.com/r/antpickax/k2hr3.sidecar)
 [![Docker pulls](https://img.shields.io/docker/pulls/antpickax/k2hr3.sidecar.svg)](https://hub.docker.com/r/antpickax/k2hr3.sidecar)
 [![Docker automated build](https://img.shields.io/docker/cloud/automated/antpickax/k2hr3.sidecar.svg)](https://hub.docker.com/r/antpickax/k2hr3.sidecar)
