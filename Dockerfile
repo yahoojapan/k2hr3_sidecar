@@ -21,8 +21,8 @@ FROM docker.io/alpine:3.9.4
 
 MAINTAINER antpickax
 
-LABEL description "K2HR3 Container Registration Sidecar" \
-      maintainer="antpickax <antpickax@mail.yahoo.co.jp>"
+LABEL description="K2HR3 Container Registration Sidecar"
+LABEL maintainer="antpickax <antpickax-support@mail.yahoo.co.jp>"
 
 COPY k2hr3-k8s-init.sh /usr/local/bin/
 

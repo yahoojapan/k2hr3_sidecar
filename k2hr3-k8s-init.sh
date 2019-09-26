@@ -334,7 +334,7 @@ if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
 			K2HR3_POD_ID=${K2HR3_TMP_POD_ID}
 		else
 			if [ "X${K2HR3_POD_ID}" != "X${K2HR3_TMP_POD_ID}" ]; then
-				echo "[WARNING] ${PRGNAME} : Specified pod id(${K2HR3_POD_ID}) is not correct, so that use corrent pod id(${K2HR3_TMP_POD_ID}) instead of it." 1>&2
+				echo "[WARNING] ${PRGNAME} : Specified pod id(${K2HR3_POD_ID}) is not correct, so that use current pod id(${K2HR3_TMP_POD_ID}) instead of it." 1>&2
 				K2HR3_POD_ID=${K2HR3_TMP_POD_ID}
 			fi
 		fi
