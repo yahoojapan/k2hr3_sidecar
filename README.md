@@ -1,5 +1,5 @@
 K2HR3 Container Registration Sidecar
---------
+------------------------------------
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/yahoojapan/k2hr3_sidecar/master/COPYING)
 [![GitHub forks](https://img.shields.io/github/forks/yahoojapan/k2hr3_sidecar.svg)](https://github.com/yahoojapan/k2hr3_sidecar/network)
 [![GitHub stars](https://img.shields.io/github/stars/yahoojapan/k2hr3_sidecar.svg)](https://github.com/yahoojapan/k2hr3_sidecar/stargazers)
@@ -9,11 +9,9 @@ K2HR3 Container Registration Sidecar
 [![Docker automated build](https://img.shields.io/docker/cloud/automated/antpickax/k2hr3.sidecar.svg)](https://hub.docker.com/r/antpickax/k2hr3.sidecar)
 [![Docker build](https://img.shields.io/docker/cloud/build/antpickax/k2hr3.sidecar.svg)](https://hub.docker.com/r/antpickax/k2hr3.sidecar)
 
-Sidecar docker image for container registration to K2HR3 systems
-
 ## **K2HR3** - **K2H**dkc based **R**esource and **R**oles and policy **R**ules
 
-<img src="https://k2hr3.antpick.ax/images/top_k2hr3.png" width="100%" alt="K2HR3 system">
+![K2HR3 system](https://k2hr3.antpick.ax/images/top_k2hr3.png)
 
 ### K2HR3 system overview
 **K2HR3** (**K2H**dkc based **R**esource and **R**oles and policy **R**ules) is one of extended **RBAC** (**R**ole **B**ased **A**ccess **C**ontrol) system.  
@@ -30,7 +28,7 @@ K2HR3 provides **+SERVICE** feature, it **strongly supports** user system, funct
 K2HR3 is built [k2hdkc](https://github.com/yahoojapan/k2hdkc), [k2hash](https://github.com/yahoojapan/k2hash), [chmpx](https://github.com/yahoojapan/chmpx) and [k2hash transaction plugin](https://github.com/yahoojapan/k2htp_dtor) components by [AntPickax](https://antpick.ax/).
 
 ### K2HR3 Container Registration Sidecar
-**K2HR3 Container Registration Sidecar** is docker image for container registration to K2HR3 systems.  
+**K2HR3 Container Registration Sidecar** is docker image for container registration to [K2HR3](https://k2hr3.antpick.ax/index.html) systems.  
 This repository is a repository for creating docker images.  
 The created docker image will be published on dockerhub.  
 This docker image is an image for Sidecar that is used to automatically register and delete the container of kubernetes in the K2HR3 system.  
@@ -38,11 +36,6 @@ This docker image is an image for Sidecar that is used to automatically register
 If you use the K2HR3 system to register a container, you can use the K2HR3 Web Application and get yaml to register a Sidecar that uses this image.  
 You can start sidecar using the obtained yaml.  
 See the documentation for details.  
-
-### Demonstration site
-You can access the [demonstration site](https://demo.k2hr3.antpick.ax) of K2HR3 Web Application by accessing here.  
-You can learn about **R**esource, **R**oles, policy **R**ules and **SERVICE** provided by K2HR3 on this site now.  
-_The data operated on this site can not be saved._
 
 ### Documents
 [K2HR3 Document](https://k2hr3.antpick.ax/index.html)  
