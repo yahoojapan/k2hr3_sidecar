@@ -2,7 +2,7 @@
 #
 # K2HR3 Container Registration Sidecar
 #
-# Copyright 2019 Yahoo! Japan Corporation.
+# Copyright 2019 Yahoo Japan Corporation.
 #
 # K2HR3 is K2hdkc based Resource and Roles and policy Rules, gathers
 # common management information for the cloud.
@@ -485,7 +485,10 @@ else
 fi
 
 #
-# VIM modelines
-#
-# vim:set ts=4 fenc=utf-8:
+# Local variables:
+# tab-width: 4
+# c-basic-offset: 4
+# End:
+# vim600: noexpandtab sw=4 ts=4 fdm=marker
+# vim<600: noexpandtab sw=4 ts=4
 #
