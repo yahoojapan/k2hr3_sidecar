@@ -17,7 +17,7 @@
 # REVISION:
 #
 
-FROM docker.io/alpine:3.9.4
+FROM docker.io/alpine:3.19.1
 
 MAINTAINER antpickax
 

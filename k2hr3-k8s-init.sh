@@ -96,8 +96,9 @@ func_usage()
 #
 # Common
 #
-PRGNAME=`basename $0`
-SRCTOP=`cd $(dirname $0); pwd`
+PRGNAME=$(basename "$0")
+#SCRIPTDIR=$(dirname "$0")
+#SRCTOP=$(cd "${SCRIPTDIR}" || exit 1; pwd)
 
 #
 # Parse options
@@ -111,29 +112,29 @@ K2HR3_API_SCHEMA=""
 K2HR3_API_URI=""
 K2HR3_VOLUME_PATH=""
 while [ $# -ne 0 ]; do
-	if [ "X$1" = "X" ]; then
+	if [ -z "$1" ]; then
 		break
 
-	elif [ "X$1" = "X-h" -o "X$1" = "X-H" -o "X$1" = "X--help" -o "X$1" = "X--HELP" ]; then
-		func_usage $PRGNAME
+	elif [ "$1" = "-h" ] || [ "$1" = "-H" ] || [ "$1" = "--help" ] || [ "$1" = "--HELP" ]; then
+		func_usage "${PRGNAME}"
 		exit 0
 
-	elif [ "X$1" = "X-reg" -o "X$1" = "X-REG" ]; then
-		if [ "X${K2HR3_BEHAVIOR}" != "X" ]; then
+	elif [ "$1" = "-reg" ] || [ "$1" = "-REG" ]; then
+		if [ -n "${K2HR3_BEHAVIOR}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set behavior(registration or deletion)." 1>&2
 			exit 1
 		fi
 		K2HR3_BEHAVIOR="reg"
 
-	elif [ "X$1" = "X-del" -o "X$1" = "X-DEL" ]; then
-		if [ "X${K2HR3_BEHAVIOR}" != "X" ]; then
+	elif [ "$1" = "-del" ] || [ "$1" = "-DEL" ]; then
+		if [ -n "${K2HR3_BEHAVIOR}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set behavior(registration or deletion)." 1>&2
 			exit 1
 		fi
 		K2HR3_BEHAVIOR="del"
 
-	elif [ "X$1" = "X-rtoken" -o "X$1" = "X-RTOKEN" ]; then
-		if [ "X${K2HR3_ROLE_TOKEN}" != "X" ]; then
+	elif [ "$1" = "-rtoken" ] || [ "$1" = "-RTOKEN" ]; then
+		if [ -n "${K2HR3_ROLE_TOKEN}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set role token(${K2HR3_ROLE_TOKEN})." 1>&2
 			exit 1
 		fi
@@ -142,10 +143,10 @@ while [ $# -ne 0 ]; do
 			echo "[ERROR] ${PRGNAME} : -rtoken option is specified without parameter." 1>&2
 			exit 1
 		fi
-		K2HR3_ROLE_TOKEN=$1
+		K2HR3_ROLE_TOKEN="$1"
 
-	elif [ "X$1" = "X-role" -o "X$1" = "X-ROLE" ]; then
-		if [ "X${K2HR3_ROLE_YRN}" != "X" ]; then
+	elif [ "$1" = "-role" ] || [ "$1" = "-ROLE" ]; then
+		if [ -n "${K2HR3_ROLE_YRN}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set role yrn full path(${K2HR3_ROLE_YRN})." 1>&2
 			exit 1
 		fi
@@ -154,10 +155,10 @@ while [ $# -ne 0 ]; do
 			echo "[ERROR] ${PRGNAME} : -role option is specified without parameter." 1>&2
 			exit 1
 		fi
-		K2HR3_ROLE_YRN=$1
+		K2HR3_ROLE_YRN="$1"
 
-	elif [ "X$1" = "X-host" -o "X$1" = "X-HOST" ]; then
-		if [ "X${K2HR3_API_HOST}" != "X" ]; then
+	elif [ "$1" = "-host" ] || [ "$1" = "-HOST" ]; then
+		if [ -n "${K2HR3_API_HOST}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set K2HR3 API server(${K2HR3_API_HOST})." 1>&2
 			exit 1
 		fi
@@ -166,10 +167,10 @@ while [ $# -ne 0 ]; do
 			echo "[ERROR] ${PRGNAME} : -host option is specified without parameter." 1>&2
 			exit 1
 		fi
-		K2HR3_API_HOST=$1
+		K2HR3_API_HOST="$1"
 
-	elif [ "X$1" = "X-port" -o "X$1" = "X-PORT" ]; then
-		if [ "X${K2HR3_API_PORT}" != "X" ]; then
+	elif [ "$1" = "-port" ] || [ "$1" = "-PORT" ]; then
+		if [ -n "${K2HR3_API_PORT}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set K2HR3 API port(${K2HR3_API_PORT})." 1>&2
 			exit 1
 		fi
@@ -179,15 +180,14 @@ while [ $# -ne 0 ]; do
 			exit 1
 		fi
 		# check number
-		expr "$1" + 1 >/dev/null 2>&1
-		if [ $? -ge 2 ]; then
+		if echo "$1" | grep -q "[^0-9]"; then
 			echo "[ERROR] ${PRGNAME} : -port option parameter is not number($1)." 1>&2
 			exit 1
 		fi
-		K2HR3_API_PORT=$1
+		K2HR3_API_PORT="$1"
 
-	elif [ "X$1" = "X-schema" -o "X$1" = "X-SCHEMA" ]; then
-		if [ "X${K2HR3_API_SCHEMA}" != "X" ]; then
+	elif [ "$1" = "-schema" ] || [ "$1" = "-SCHEMA" ]; then
+		if [ -n "${K2HR3_API_SCHEMA}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set K2HR3 API schema(${K2HR3_API_SCHEMA})." 1>&2
 			exit 1
 		fi
@@ -196,17 +196,17 @@ while [ $# -ne 0 ]; do
 			echo "[ERROR] ${PRGNAME} : -schema option is specified without parameter." 1>&2
 			exit 1
 		fi
-		if [ "X$1" = "Xhttp" -o "X$1" = "XHTTP" ]; then
+		if [ "$1" = "http" ] || [ "$1" = "HTTP" ]; then
 			K2HR3_API_SCHEMA="http"
-		elif [ "X$1" = "Xhttps" -o "X$1" = "XHTTPS" ]; then
+		elif [ "$1" = "https" ] || [ "$1" = "HTTPS" ]; then
 			K2HR3_API_SCHEMA="https"
 		else
 			echo "[ERROR] ${PRGNAME} : -schema option parameter is wrong value($1)." 1>&2
 			exit 1
 		fi
 
-	elif [ "X$1" = "X-uri" -o "X$1" = "X-URI" ]; then
-		if [ "X${K2HR3_API_URI}" != "X" ]; then
+	elif [ "$1" = "-uri" ] || [ "$1" = "-URI" ]; then
+		if [ -n "${K2HR3_API_URI}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set registration/deletion URI path(${K2HR3_API_URI})." 1>&2
 			exit 1
 		fi
@@ -215,10 +215,10 @@ while [ $# -ne 0 ]; do
 			echo "[ERROR] ${PRGNAME} : -uri option is specified without parameter." 1>&2
 			exit 1
 		fi
-		K2HR3_API_URI=$1
+		K2HR3_API_URI="$1"
 
-	elif [ "X$1" = "X-volume" -o "X$1" = "X-VOLUME" ]; then
-		if [ "X${K2HR3_VOLUME_PATH}" != "X" ]; then
+	elif [ "$1" = "-volume" ] || [ "$1" = "-VOLUME" ]; then
+		if [ -n "${K2HR3_VOLUME_PATH}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set volume disk path(${K2HR3_VOLUME_PATH})." 1>&2
 			exit 1
 		fi
@@ -227,7 +227,7 @@ while [ $# -ne 0 ]; do
 			echo "[ERROR] ${PRGNAME} : -volume option is specified without parameter." 1>&2
 			exit 1
 		fi
-		K2HR3_VOLUME_PATH=$1
+		K2HR3_VOLUME_PATH="$1"
 
 	else
 		echo "[ERROR] ${PRGNAME} : unknown option($1) is specified." 1>&2
@@ -239,48 +239,48 @@ done
 #
 # Check options
 #
-if [ "X${K2HR3_BEHAVIOR}" = "X" ]; then
+if [ -z "${K2HR3_BEHAVIOR}" ]; then
 	echo "[ERROR] ${PRGNAME} : Must specify the behavior option of this script: registration(-reg) or deletion(-del)." 1>&2
 	exit 1
 fi
-if [ "X${K2HR3_ROLE_TOKEN}" = "X" ]; then
-	if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
+if [ -z "${K2HR3_ROLE_TOKEN}" ]; then
+	if [ "${K2HR3_BEHAVIOR}" = "reg" ]; then
 		echo "[ERROR] ${PRGNAME} : -rtoken option is not specified." 1>&2
 		exit 1
 	fi
 fi
-if [ "X${K2HR3_ROLE_YRN}" = "X" ]; then
+if [ -z "${K2HR3_ROLE_YRN}" ]; then
 	echo "[ERROR] ${PRGNAME} : -role option is not specified." 1>&2
 	exit 1
 fi
-if [ "X${K2HR3_API_HOST}" = "X" ]; then
+if [ -z "${K2HR3_API_HOST}" ]; then
 	echo "[ERROR] ${PRGNAME} : -host option is not specified." 1>&2
 	exit 1
 fi
-if [ "X${K2HR3_API_PORT}" = "X" -a "X${K2HR3_API_SCHEMA}" = "X" ]; then
+if [ -z "${K2HR3_API_PORT}" ] && [ -z "${K2HR3_API_SCHEMA}" ]; then
 	K2HR3_API_PORT=443
 	K2HR3_API_SCHEMA="https"
-elif [ "X${K2HR3_API_PORT}" != "X" -a "X${K2HR3_API_SCHEMA}" = "X" ]; then
-	if [ ${K2HR3_API_PORT} -eq 80 ]; then
+elif [ -n "${K2HR3_API_PORT}" ] && [ -z "${K2HR3_API_SCHEMA}" ]; then
+	if [ "${K2HR3_API_PORT}" -eq 80 ]; then
 		K2HR3_API_SCHEMA="http"
 	else
 		K2HR3_API_SCHEMA="https"
 	fi
-elif [ "X${K2HR3_API_PORT}" = "X" -a "X${K2HR3_API_SCHEMA}" != "X" ]; then
-	if [ "X${K2HR3_API_SCHEMA}" = "Xhttp" ]; then
+elif [ -z "${K2HR3_API_PORT}" ] && [ -n "${K2HR3_API_SCHEMA}" ]; then
+	if [ "${K2HR3_API_SCHEMA}" = "http" ]; then
 		K2HR3_API_PORT=80
 	else
 		K2HR3_API_PORT=443
 	fi
 fi
-if [ "X${K2HR3_API_URI}" = "X" ]; then
+if [ -z "${K2HR3_API_URI}" ]; then
 	K2HR3_API_URI="/v1/role"
 fi
-if [ "X${K2HR3_VOLUME_PATH}" = "X" ]; then
+if [ -z "${K2HR3_VOLUME_PATH}" ]; then
 	K2HR3_VOLUME_PATH="/k2hr3-volume"
 fi
-if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
-	if [ ! -d ${K2HR3_VOLUME_PATH} ]; then
+if [ "${K2HR3_BEHAVIOR}" = "reg" ]; then
+	if [ ! -d "${K2HR3_VOLUME_PATH}" ]; then
 		echo "[ERROR] ${PRGNAME} : volume disk(${K2HR3_VOLUME_PATH}) is not found or not directory." 1>&2
 		exit 1
 	fi
@@ -289,7 +289,7 @@ fi
 #
 # Processing
 #
-if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
+if [ "${K2HR3_BEHAVIOR}" = "reg" ]; then
 	#
 	# Registration
 	#
@@ -297,49 +297,47 @@ if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
 	#
 	# Make container id with checking pod id
 	#
-	local_proc_ids=`ls -1 /proc/ | grep -E "[0-9]+" 2>/dev/null`
-	if [ $? -ne 0 ]; then
+	# shellcheck disable=SC2010
+	if ! local_proc_ids=$(ls -1 /proc/ | grep -E "[0-9]+" 2>/dev/null); then
 		echo "[ERROR] ${PRGNAME} : Could not find any /proc/<process id> directory." 1>&2
 		exit 1
 	fi
 
 	local_uid_containerid=""
 	for local_procid in ${local_proc_ids}; do
-		if [ ! -f /proc/${local_procid}/cgroup ]; then
+		if [ ! -f "/proc/${local_procid}/cgroup" ]; then
 			continue
 		fi
-		local_all_line=`cat /proc/${local_procid}/cgroup`
-		if [ $? -ne 0 ]; then
+		if ! local_all_line=$(cat "/proc/${local_procid}/cgroup"); then
 			continue
 		fi
 		for local_line in ${local_all_line}; do
-			local_uid_containerid=`echo ${local_line} | sed -e 's#.*pod##g' -e 's#\.slice##g' -e 's#\.scope##g' -e 's#docker-##g' 2>/dev/null`
-			if [ $? -ne 0 ]; then
+			if ! local_uid_containerid=$(echo "${local_line}" | sed -e 's#.*pod##g' -e 's#\.slice##g' -e 's#\.scope##g' -e 's#docker-##g' 2>/dev/null); then
 				continue
 			fi
-			if [ "X${local_uid_containerid}" != "X" ]; then
+			if [ -n "${local_uid_containerid}" ]; then
 				break
 			fi
 		done
-		if [ "X${local_uid_containerid}" != "X" ]; then
+		if [ -n "${local_uid_containerid}" ]; then
 			break
 		fi
 	done
 
-	if [ "X${local_uid_containerid}" != "X" ]; then
-		K2HR3_TMP_POD_ID=`echo ${local_uid_containerid} | sed -e 's#/# #g' 2>/dev/null | awk '{print $1}' 2>/dev/null`
-		K2HR3_CONTAINER_ID=`echo ${local_uid_containerid} | sed -e 's#/# #g' 2>/dev/null | awk '{print $2}' 2>/dev/null`
+	if [ -n "${local_uid_containerid}" ]; then
+		K2HR3_TMP_POD_ID=$(echo "${local_uid_containerid}" | sed -e 's#/# #g' 2>/dev/null | awk '{print $1}' 2>/dev/null)
+		K2HR3_CONTAINER_ID=$(echo "${local_uid_containerid}" | sed -e 's#/# #g' 2>/dev/null | awk '{print $2}' 2>/dev/null)
 
-		if [ "X${K2HR3_POD_ID}" = "X" ]; then
-			K2HR3_POD_ID=${K2HR3_TMP_POD_ID}
+		if [ -z "${K2HR3_POD_ID}" ]; then
+			K2HR3_POD_ID="${K2HR3_TMP_POD_ID}"
 		else
-			if [ "X${K2HR3_POD_ID}" != "X${K2HR3_TMP_POD_ID}" ]; then
+			if [ "${K2HR3_POD_ID}" != "${K2HR3_TMP_POD_ID}" ]; then
 				echo "[WARNING] ${PRGNAME} : Specified pod id(${K2HR3_POD_ID}) is not correct, so that use current pod id(${K2HR3_TMP_POD_ID}) instead of it." 1>&2
-				K2HR3_POD_ID=${K2HR3_TMP_POD_ID}
+				K2HR3_POD_ID="${K2HR3_TMP_POD_ID}"
 			fi
 		fi
 	fi
-	if [ -z ${K2HR3_CONTAINER_ID} ]; then
+	if [ -z "${K2HR3_CONTAINER_ID}" ]; then
 		echo "[ERROR] ${PRGNAME} : Could not get container id." 1>&2
 		exit 1
 	fi
@@ -347,31 +345,31 @@ if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
 	#
 	# Check all parameters in environment
 	#
-	if [ -z ${K2HR3_NODE_NAME} ]; then
+	if [ -z "${K2HR3_NODE_NAME}" ]; then
 		echo "[ERROR] ${PRGNAME} : Environment K2HR3_NODE_NAME is not specified." 1>&2
 		exit 1
 	fi
-	if [ -z ${K2HR3_NODE_IP} ]; then
+	if [ -z "${K2HR3_NODE_IP}" ]; then
 		echo "[ERROR] ${PRGNAME} : Environment K2HR3_NODE_IP is not specified." 1>&2
 		exit 1
 	fi
-	if [ -z ${K2HR3_POD_NAME} ]; then
+	if [ -z "${K2HR3_POD_NAME}" ]; then
 		echo "[ERROR] ${PRGNAME} : Environment K2HR3_POD_NAME is not specified." 1>&2
 		exit 1
 	fi
-	if [ -z ${K2HR3_POD_NAMESPACE} ]; then
+	if [ -z "${K2HR3_POD_NAMESPACE}" ]; then
 		echo "[ERROR] ${PRGNAME} : Environment K2HR3_POD_NAMESPACE is not specified." 1>&2
 		exit 1
 	fi
-	if [ -z ${K2HR3_POD_SERVICE_ACCOUNT} ]; then
+	if [ -z "${K2HR3_POD_SERVICE_ACCOUNT}" ]; then
 		echo "[ERROR] ${PRGNAME} : Environment K2HR3_POD_SERVICE_ACCOUNT is not specified." 1>&2
 		exit 1
 	fi
-	if [ -z ${K2HR3_POD_ID} ]; then
+	if [ -z "${K2HR3_POD_ID}" ]; then
 		echo "[ERROR] ${PRGNAME} : Environment K2HR3_POD_ID is not specified." 1>&2
 		exit 1
 	fi
-	if [ -z ${K2HR3_POD_IP} ]; then
+	if [ -z "${K2HR3_POD_IP}" ]; then
 		echo "[ERROR] ${PRGNAME} : Environment K2HR3_POD_IP is not specified." 1>&2
 		exit 1
 	fi
@@ -397,8 +395,7 @@ if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
 	#	'/'				to '_'
 	#	'='(end word)	to '%3d'
 	#
-	K2HR3_REG_RAND=`od -vAn -tx8 -N16 < /dev/urandom 2>/dev/null | tr -d '[:blank:]' 2>/dev/null`
-	if [ $? -ne 0 ]; then
+	if ! K2HR3_REG_RAND=$(od -vAn -tx8 -N16 < /dev/urandom 2>/dev/null | tr -d '[:blank:]' 2>/dev/null); then
 		echo "[ERROR] ${PRGNAME} : Could not make 64 bytes random value for CUK value." 1>&2
 		exit 1
 	fi
@@ -415,13 +412,11 @@ if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
 \"k8s_service_account\":\"${K2HR3_POD_SERVICE_ACCOUNT}\"
 }"
 
-	local_cuk_base64=`echo -n ${local_cuk_string} 2>/dev/null | sed -e 's/ //g' 2>/dev/null | base64 2>/dev/null | tr -d '\n' 2>/dev/null`
-	if [ $? -ne 0 ]; then
+	if ! local_cuk_base64=$(printf '%s' "${local_cuk_string}" | sed -e 's/ //g' | base64 | tr -d '\n'); then
 		echo "[ERROR] ${PRGNAME} : Could not make base64 string for CUK value." 1>&2
 		exit 1
 	fi
-	local_cuk_base64_urlenc=`echo -n ${local_cuk_base64} 2>/dev/null | sed -e 's/+/-/g' -e 's#/#_#g' -e 's/=/%3d/g' 2>/dev/null`
-	if [ $? -ne 0 ]; then
+	if ! local_cuk_base64_urlenc=$(printf '%s' "${local_cuk_base64}" | sed -e 's/+/-/g' -e 's#/#_#g' -e 's/=/%3d/g'); then
 		echo "[ERROR] ${PRGNAME} : Could not make base64 url encode string for CUK value." 1>&2
 		exit 1
 	fi
@@ -439,8 +434,7 @@ if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
 	# Example: 
 	#	curl -s -S -X PUT -H "x-auth-token: R=<ROLE TOKEN>" "http(s)://<k2hr3 api host>:<port>/<uri>/<role yrn>?extra=k8s-auto-v1&cuk=<cuk parameter>"
 	#
-	curl -s -S -X PUT -H "x-auth-token: R=${K2HR3_ROLE_TOKEN}" "${K2HR3_API_SCHEMA}://${K2HR3_API_HOST}:${K2HR3_API_PORT}${K2HR3_API_URI}/${K2HR3_ROLE_YRN}?extra=${local_extra_string}&cuk=${local_cuk_base64_urlenc}"
-	if [ $? -ne 0 ]; then
+	if ! curl -s -S -X PUT -H "x-auth-token: R=${K2HR3_ROLE_TOKEN}" "${K2HR3_API_SCHEMA}://${K2HR3_API_HOST}:${K2HR3_API_PORT}${K2HR3_API_URI}/${K2HR3_ROLE_YRN}?extra=${local_extra_string}&cuk=${local_cuk_base64_urlenc}"; then
 		echo "[ERROR] ${PRGNAME} : Failed registration to role member." 1>&2
 		exit 1
 	fi
@@ -448,12 +442,13 @@ if [ "X${K2HR3_BEHAVIOR}" = "Xreg" ]; then
 	#
 	# Make files in volume disk
 	#
-	echo -n "${K2HR3_ROLE_YRN}"												> ${K2HR3_VOLUME_PATH}/${K2HR3_FILE_ROLE}
-	echo -n "${local_cuk_base64}"											> ${K2HR3_VOLUME_PATH}/${K2HR3_FILE_CUK}
-	echo -n "${local_cuk_base64_urlenc}"									> ${K2HR3_VOLUME_PATH}/${K2HR3_FILE_CUKENC}
-	echo -n "cuk=${local_cuk_base64_urlenc}"								> ${K2HR3_VOLUME_PATH}/${K2HR3_FILE_APIARG}
+	
+	printf '%s' "${K2HR3_ROLE_YRN}"					> "${K2HR3_VOLUME_PATH}/${K2HR3_FILE_ROLE}"
+	printf '%s' "${local_cuk_base64}"				> "${K2HR3_VOLUME_PATH}/${K2HR3_FILE_CUK}"
+	printf '%s' "${local_cuk_base64_urlenc}"		> "${K2HR3_VOLUME_PATH}/${K2HR3_FILE_CUKENC}"
+	printf '%s' "cuk=${local_cuk_base64_urlenc}"	> "${K2HR3_VOLUME_PATH}/${K2HR3_FILE_APIARG}"
 
-	cat << EOT > ${K2HR3_VOLUME_PATH}/${K2HR3_FILE_DEINIT_SH}
+	cat << EOT > "${K2HR3_VOLUME_PATH}/${K2HR3_FILE_DEINIT_SH}"
 #!/bin/sh
 curl -s -S -X DELETE "${K2HR3_API_SCHEMA}://${K2HR3_API_HOST}:${K2HR3_API_PORT}${K2HR3_API_URI}/${K2HR3_ROLE_YRN}?cuk=${local_cuk_base64_urlenc}"
 if [ $? -ne 0 ]; then
@@ -462,7 +457,7 @@ if [ $? -ne 0 ]; then
 fi
 exit 0
 EOT
-	chmod 0500 ${K2HR3_VOLUME_PATH}/${K2HR3_FILE_DEINIT_SH}
+	chmod 0500 "${K2HR3_VOLUME_PATH}/${K2HR3_FILE_DEINIT_SH}"
 
 else
 	#
@@ -475,10 +470,8 @@ else
 	# Example: 
 	#	curl -s -S -X DELETE "http(s)://<k2hr3 api host>:<port>/<uri>/<role yrn>?cuk=<cuk parameter>"
 	#
-	K2HR3_API_PARAMS=`cat ${K2HR3_VOLUME_PATH}/${K2HR3_FILE_APIARG} 2>/dev/null`
-	curl -s -S -X DELETE "${K2HR3_API_SCHEMA}://${K2HR3_API_HOST}:${K2HR3_API_PORT}${K2HR3_API_URI}/${K2HR3_ROLE_YRN}?${K2HR3_API_PARAMS}"
-
-	if [ $? -ne 0 ]; then
+	K2HR3_API_PARAMS=$(cat "${K2HR3_VOLUME_PATH}/${K2HR3_FILE_APIARG}" 2>/dev/null)
+	if ! curl -s -S -X DELETE "${K2HR3_API_SCHEMA}://${K2HR3_API_HOST}:${K2HR3_API_PORT}${K2HR3_API_URI}/${K2HR3_ROLE_YRN}?${K2HR3_API_PARAMS}"; then
 		echo "[ERROR] ${PRGNAME} : Failed deletion from role member." 1>&2
 		exit 1
 	fi
