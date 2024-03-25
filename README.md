@@ -1,6 +1,6 @@
 K2HR3 Container Registration Sidecar
 ------------------------------------
-[![Docker Image CI](https://github.com/yahoojapan/k2hr3_app/workflows/Docker%20Image%20CI/badge.svg)](https://github.com/yahoojapan/k2hr3_sidecar/actions)
+[![Docker Image CI](https://github.com/yahoojapan/k2hr3_sidecar/actions/workflows/ci.yml/badge.svg)](https://github.com/yahoojapan/k2hr3_sidecar/actions/workflows/ci.yml)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/yahoojapan/k2hr3_sidecar/master/LICENSE)
 [![GitHub forks](https://img.shields.io/github/forks/yahoojapan/k2hr3_sidecar.svg)](https://github.com/yahoojapan/k2hr3_sidecar/network)
 [![GitHub stars](https://img.shields.io/github/stars/yahoojapan/k2hr3_sidecar.svg)](https://github.com/yahoojapan/k2hr3_sidecar/stargazers)
