@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 #
 # K2HR3 Container Registration Sidecar
 #
@@ -13,19 +14,25 @@
 # the license file that was distributed with this source code.
 #
 # AUTHOR:   Takeshi Nakatani
-# CREATE:   Fri Sep 19 2019
+# CREATE:   Fri Sep 13 2019
 # REVISION:
 #
 
-version: '3.3'
+FROM %%DOCKER_IMAGE_BASE%% AS k2hr3.sidecar
 
-services:
-  sut:
-    build: .
-    command: >
-      /bin/sh -c 'stat /usr/local/bin/k2hr3-k8s-init.sh >/dev/null 2>&1 &&
-      /usr/local/bin/k2hr3-k8s-init.sh -h >/dev/null 2>&1 &&
-      curl --version >/dev/null 2>&1'
+MAINTAINER %%MAINTAINER%%
+WORKDIR /
+
+LABEL description="K2HR3 Container Registration Sidecar"
+LABEL maintainer="antpickax <antpickax-support@mail.yahoo.co.jp>"
+
+%%SETUP_ENV%%
+
+RUN set -x && \
+	%%PKG_UPDATE%% && \
+	%%PKG_INSTALL_CURL%%
+
+COPY %%SOURCE_FILE_SUBDIR%%/k2hr3-k8s-init.sh /usr/local/bin/
 
 #
 # Local variables:
