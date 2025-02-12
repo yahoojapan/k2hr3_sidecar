@@ -184,7 +184,7 @@ func_usage()
 	echo "  Option:"
 	echo "    --help(-h)                                                print help"
 	echo "    --imagetype-vars-file(-f)                  <file path>    specify the file path to imagetype variable(deafult. \"imagetypevars.sh\")"
-	echo "    --imageinfo(-i)                            <image info>   specify infomration about "base docker image", "os type tag" and "default flag" (ex. \"alpine:latest,alpine,default\")"
+	echo "    --imageinfo(-i)                            <image info>   specify infomration about \"base docker image\", \"os type tag\" and \"default flag\" (ex. \"alpine:latest,alpine,default\")"
 	echo "    --organization(-o)                         <organization> specify organaization name on DockerHub(default. \"antpickax\")"
 	echo "    --imagenames(-n)                           <image name>   specify build image names, separate multiple names with commas(ex. \"target,target2...\")"
 	echo "    --imageversion(-v)                         <version>      the value of this option is set automatically and is usually not specified.(ex. \"1.0.0\")"
@@ -235,11 +235,11 @@ while [ $# -ne 0 ]; do
 	if [ -z "$1" ]; then
 		break
 
-	elif [ "$1" = "-h" ] || [ "$1" = "-H" ] || [ "$1" = "--help" ] || [ "$1" = "--HELP" ]; then
+	elif echo "$1" | grep -q -i -e "^-h$" -e "^--help$"; then
 		func_usage "${PRGNAME}"
 		exit 0
 
-	elif [ "$1" = "-f" ] || [ "$1" = "-F" ] || [ "$1" = "--imagetype-vars-file" ] || [ "$1" = "--IMAGETYPE-VARS-FILE" ]; then
+	elif echo "$1" | grep -q -i -e "^-f$" -e "^--imagetype-vars-file$"; then
 		if [ -n "${OPT_IMAGEVAR_FILE}" ]; then
 			PRNERR "already set \"--imagetype-vars-file(-f)\" option."
 			exit 1
@@ -259,7 +259,7 @@ while [ $# -ne 0 ]; do
 			OPT_IMAGEVAR_FILE="$1"
 		fi
 
-	elif [ "$1" = "-i" ] || [ "$1" = "-I" ] || [ "$1" = "--imageinfo" ] || [ "$1" = "--IMAGEINFO" ]; then
+	elif echo "$1" | grep -q -i -e "^-i$" -e "^--imageinfo$"; then
 		if [ -n "${OPT_DOCKER_IMAGE_INFO}" ]; then
 			PRNERR "already set \"--imageinfo(-i)\" option."
 			exit 1
@@ -271,7 +271,7 @@ while [ $# -ne 0 ]; do
 		fi
 		OPT_DOCKER_IMAGE_INFO="$1"
 
-	elif [ "$1" = "-o" ] || [ "$1" = "-O" ] || [ "$1" = "--organization" ] || [ "$1" = "--ORGANIZATION" ]; then
+	elif echo "$1" | grep -q -i -e "^-o$" -e "^--organization$"; then
 		if [ -n "${OPT_DOCKER_HUB_ORG}" ]; then
 			PRNERR "already set \"--organization(-o)\" option."
 			exit 1
@@ -283,7 +283,7 @@ while [ $# -ne 0 ]; do
 		fi
 		OPT_DOCKER_HUB_ORG="$1"
 
-	elif [ "$1" = "-n" ] || [ "$1" = "-N" ] || [ "$1" = "--imagenames" ] || [ "$1" = "--IMAGENAMES" ]; then
+	elif echo "$1" | grep -q -i -e "^-n$" -e "^--imagenames$"; then
 		if [ -n "${OPT_IMAGE_NAMES}" ]; then
 			PRNERR "already set \"--imagenames(-n)\" option."
 			exit 1
@@ -295,7 +295,7 @@ while [ $# -ne 0 ]; do
 		fi
 		OPT_IMAGE_NAMES="$1"
 
-	elif [ "$1" = "-v" ] || [ "$1" = "-V" ] || [ "$1" = "--imageversion" ] || [ "$1" = "--IMAGEVERSION" ]; then
+	elif echo "$1" | grep -q -i -e "^-v$" -e "^--imageversion$"; then
 		if [ -n "${OPT_IMAGE_VERSION}" ]; then
 			PRNERR "already set \"--imageversion(-v)\" option."
 			exit 1
@@ -307,7 +307,7 @@ while [ $# -ne 0 ]; do
 		fi
 		OPT_IMAGE_VERSION="$1"
 
-	elif [ "$1" = "-m" ] || [ "$1" = "-M" ] || [ "$1" = "--maintainer" ] || [ "$1" = "--MAINTAINER" ]; then
+	elif echo "$1" | grep -q -i -e "^-m$" -e "^--maintainer$"; then
 		if [ -n "${OPT_MAINTAINER}" ]; then
 			PRNERR "already set \"--maintainer(-m)\" option."
 			exit 1
@@ -319,14 +319,14 @@ while [ $# -ne 0 ]; do
 		fi
 		OPT_MAINTAINER="$1"
 
-	elif [ "$1" = "-p" ] || [ "$1" = "-P" ] || [ "$1" = "--push" ] || [ "$1" = "--PUSH" ]; then
+	elif echo "$1" | grep -q -i -e "^-p$" -e "^--push$"; then
 		if [ -n "${OPT_FORCE_PUSH}" ]; then
 			PRNERR "already set \"--push(-p)\" or \"--notpush(-np)\" option."
 			exit 1
 		fi
 		OPT_FORCE_PUSH="true"
 
-	elif [ "$1" = "-np" ] || [ "$1" = "-NP" ] || [ "$1" = "--notpush" ] || [ "$1" = "--NOTPUSH" ]; then
+	elif echo "$1" | grep -q -i -e "^-np$" -e "^--notpush$"; then
 		if [ -n "${OPT_FORCE_PUSH}" ]; then
 			PRNERR "already set \"--push(-p)\" or \"--notpush(-np)\" option."
 			exit 1

@@ -115,25 +115,25 @@ while [ $# -ne 0 ]; do
 	if [ -z "$1" ]; then
 		break
 
-	elif [ "$1" = "-h" ] || [ "$1" = "-H" ] || [ "$1" = "--help" ] || [ "$1" = "--HELP" ]; then
+	elif echo "$1" | grep -q -i -e "^-h$" -e "^--help$"; then
 		func_usage "${PRGNAME}"
 		exit 0
 
-	elif [ "$1" = "-reg" ] || [ "$1" = "-REG" ]; then
+	elif echo "$1" | grep -q -i "^-reg$"; then
 		if [ -n "${K2HR3_BEHAVIOR}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set behavior(registration or deletion)." 1>&2
 			exit 1
 		fi
 		K2HR3_BEHAVIOR="reg"
 
-	elif [ "$1" = "-del" ] || [ "$1" = "-DEL" ]; then
+	elif echo "$1" | grep -q -i "^-del$"; then
 		if [ -n "${K2HR3_BEHAVIOR}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set behavior(registration or deletion)." 1>&2
 			exit 1
 		fi
 		K2HR3_BEHAVIOR="del"
 
-	elif [ "$1" = "-rtoken" ] || [ "$1" = "-RTOKEN" ]; then
+	elif echo "$1" | grep -q -i "^-rtoken$"; then
 		if [ -n "${K2HR3_ROLE_TOKEN}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set role token(${K2HR3_ROLE_TOKEN})." 1>&2
 			exit 1
@@ -145,7 +145,7 @@ while [ $# -ne 0 ]; do
 		fi
 		K2HR3_ROLE_TOKEN="$1"
 
-	elif [ "$1" = "-role" ] || [ "$1" = "-ROLE" ]; then
+	elif echo "$1" | grep -q -i "^-role$"; then
 		if [ -n "${K2HR3_ROLE_YRN}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set role yrn full path(${K2HR3_ROLE_YRN})." 1>&2
 			exit 1
@@ -157,7 +157,7 @@ while [ $# -ne 0 ]; do
 		fi
 		K2HR3_ROLE_YRN="$1"
 
-	elif [ "$1" = "-host" ] || [ "$1" = "-HOST" ]; then
+	elif echo "$1" | grep -q -i "^-host$"; then
 		if [ -n "${K2HR3_API_HOST}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set K2HR3 API server(${K2HR3_API_HOST})." 1>&2
 			exit 1
@@ -169,7 +169,7 @@ while [ $# -ne 0 ]; do
 		fi
 		K2HR3_API_HOST="$1"
 
-	elif [ "$1" = "-port" ] || [ "$1" = "-PORT" ]; then
+	elif echo "$1" | grep -q -i "^-port$"; then
 		if [ -n "${K2HR3_API_PORT}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set K2HR3 API port(${K2HR3_API_PORT})." 1>&2
 			exit 1
@@ -186,7 +186,7 @@ while [ $# -ne 0 ]; do
 		fi
 		K2HR3_API_PORT="$1"
 
-	elif [ "$1" = "-schema" ] || [ "$1" = "-SCHEMA" ]; then
+	elif echo "$1" | grep -q -i "^-schema$"; then
 		if [ -n "${K2HR3_API_SCHEMA}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set K2HR3 API schema(${K2HR3_API_SCHEMA})." 1>&2
 			exit 1
@@ -196,16 +196,16 @@ while [ $# -ne 0 ]; do
 			echo "[ERROR] ${PRGNAME} : -schema option is specified without parameter." 1>&2
 			exit 1
 		fi
-		if [ "$1" = "http" ] || [ "$1" = "HTTP" ]; then
+		if echo "$1" | grep -q -i "^http$"; then
 			K2HR3_API_SCHEMA="http"
-		elif [ "$1" = "https" ] || [ "$1" = "HTTPS" ]; then
+		elif echo "$1" | grep -q -i "^https$"; then
 			K2HR3_API_SCHEMA="https"
 		else
 			echo "[ERROR] ${PRGNAME} : -schema option parameter is wrong value($1)." 1>&2
 			exit 1
 		fi
 
-	elif [ "$1" = "-uri" ] || [ "$1" = "-URI" ]; then
+	elif echo "$1" | grep -q -i "^-uri$"; then
 		if [ -n "${K2HR3_API_URI}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set registration/deletion URI path(${K2HR3_API_URI})." 1>&2
 			exit 1
@@ -217,7 +217,7 @@ while [ $# -ne 0 ]; do
 		fi
 		K2HR3_API_URI="$1"
 
-	elif [ "$1" = "-volume" ] || [ "$1" = "-VOLUME" ]; then
+	elif echo "$1" | grep -q -i "^-volume$"; then
 		if [ -n "${K2HR3_VOLUME_PATH}" ]; then
 			echo "[ERROR] ${PRGNAME} : already set volume disk path(${K2HR3_VOLUME_PATH})." 1>&2
 			exit 1
