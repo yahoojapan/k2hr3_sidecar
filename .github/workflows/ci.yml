@@ -117,7 +117,7 @@ jobs:
         # <default tag flag>:   If you want to use the created Docker image as the default image, specify "default".
         #
         imageinfo:
-          - alpine:3.21,alpine,default
+          - alpine:3.22,alpine,default
 
     #
     # Run building and pushing helper
