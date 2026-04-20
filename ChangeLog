@@ -1,3 +1,9 @@
+k2hr3.sidecar (1.0.6) unstable; urgency=low
+
+  * Changed support OS to alpine:3.23 - #16
+
+ -- Takeshi Nakatani <ggtakec@gmail.com>  Mon, 20 Apr 2026 16:23:38 +0900
+
 k2hr3.sidecar (1.0.5) unstable; urgency=low
 
   * Changed support OS and Updated codes/mail addresses - #14
