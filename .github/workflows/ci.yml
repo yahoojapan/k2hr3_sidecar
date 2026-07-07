@@ -28,11 +28,17 @@ name: Docker Image CI
 on:
   push:
   pull_request:
+
   #
   # CRON event is fire on every sunday(UTC).
   #
   schedule:
     - cron: '0 15 * * 0'
+
+  #
+  # Manually triggering a workflow
+  #
+  workflow_dispatch:
 
 #
 # Jobs
@@ -117,7 +123,7 @@ jobs:
         # <default tag flag>:   If you want to use the created Docker image as the default image, specify "default".
         #
         imageinfo:
-          - alpine:3.23,alpine,default
+          - alpine:3.24,alpine,default
 
     #
     # Run building and pushing helper
