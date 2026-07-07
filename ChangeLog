@@ -1,3 +1,9 @@
+k2hr3.sidecar (1.0.7) unstable; urgency=low
+
+  * Supports Alpine 3.24, manual trigger for GHA - #18
+
+ -- Takeshi Nakatani <ggtakec@gmail.com>  Tue, 07 Jul 2026 17:34:24 +0900
+
 k2hr3.sidecar (1.0.6) unstable; urgency=low
 
   * Changed support OS to alpine:3.23 - #16
